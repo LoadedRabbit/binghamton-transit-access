@@ -8,6 +8,16 @@ Each neighborhood (Census block group) is colored by the fastest
 scheduled trip to Binghamton University's main campus: walking to a
 nearby BC Transit stop, plus the bus ride.
 
+**The four views:**
+
+- **Groceries (Saturday):** the faster of walking straight to a
+  supermarket (up to 800 m) or taking the bus to one, arriving by noon.
+- **To campus, weekday:** arriving on campus by 8am on a Tuesday.
+- **To campus, Saturday:** arriving by noon.
+- **Leaving campus, weeknight:** leaving between 10 and 11pm. BC Transit's
+  last bus off campus leaves at 8:31pm, so almost every neighborhood
+  shows no access.
+
 ## Data
 
 - **Bus schedules:** BC Transit's public GTFS feed (Broome County).
@@ -15,6 +25,9 @@ nearby BC Transit stop, plus the bus ride.
   5-year estimates (2020–2024).
 - **Supermarkets:** OpenStreetMap (`shop=supermarket`), spot-checked
   against store directories.
+  
+- **OCCT schedules** (night headline only): OCCT Fall 2026 schedule,
+  checked October 2026. Not part of the map.
 
 ## Assumptions and limits
 

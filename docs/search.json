@@ -4,21 +4,21 @@
     "href": "methods.html",
     "title": "How it works",
     "section": "",
-    "text": "Each neighborhood (Census block group) is colored by the fastest scheduled trip to Binghamton University’s main campus: walking to a nearby BC Transit stop, plus the bus ride."
+    "text": "Each neighborhood (Census block group) is colored by the fastest scheduled trip to Binghamton University’s main campus: walking to a nearby BC Transit stop, plus the bus ride.\nThe four views:\n\nGroceries (Saturday): the faster of walking straight to a supermarket (up to 800 m) or taking the bus to one, arriving by noon.\nTo campus, weekday: arriving on campus by 8am on a Tuesday.\nTo campus, Saturday: arriving by noon.\nLeaving campus, weeknight: leaving between 10 and 11pm. BC Transit’s last bus off campus leaves at 8:31pm, so almost every neighborhood shows no access."
   },
   {
     "objectID": "methods.html#what-the-map-shows",
     "href": "methods.html#what-the-map-shows",
     "title": "How it works",
     "section": "",
-    "text": "Each neighborhood (Census block group) is colored by the fastest scheduled trip to Binghamton University’s main campus: walking to a nearby BC Transit stop, plus the bus ride."
+    "text": "Each neighborhood (Census block group) is colored by the fastest scheduled trip to Binghamton University’s main campus: walking to a nearby BC Transit stop, plus the bus ride.\nThe four views:\n\nGroceries (Saturday): the faster of walking straight to a supermarket (up to 800 m) or taking the bus to one, arriving by noon.\nTo campus, weekday: arriving on campus by 8am on a Tuesday.\nTo campus, Saturday: arriving by noon.\nLeaving campus, weeknight: leaving between 10 and 11pm. BC Transit’s last bus off campus leaves at 8:31pm, so almost every neighborhood shows no access."
   },
   {
     "objectID": "methods.html#data",
     "href": "methods.html#data",
     "title": "How it works",
     "section": "Data",
-    "text": "Data\n\nBus schedules: BC Transit’s public GTFS feed (Broome County).\nNeighborhoods: U.S. Census Bureau, American Community Survey 5-year estimates (2020–2024).\nSupermarkets: OpenStreetMap (shop=supermarket), spot-checked against store directories."
+    "text": "Data\n\nBus schedules: BC Transit’s public GTFS feed (Broome County).\nNeighborhoods: U.S. Census Bureau, American Community Survey 5-year estimates (2020–2024).\nSupermarkets: OpenStreetMap (shop=supermarket), spot-checked against store directories.\nOCCT schedules (night headline only): OCCT Fall 2026 schedule, checked October 2026. Not part of the map."
   },
   {
     "objectID": "methods.html#assumptions-and-limits",

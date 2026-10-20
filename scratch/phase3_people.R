@@ -5,6 +5,7 @@ library(tidycensus)
 library(sf)
 library(leaflet)
 library(tidytransit)
+library(osmdata)
 source("R/functions.R")  # loads dist_m(), transit_times(), neighborhood_times()
 tt <- read_rds("data/processed/travel_times.rds")
 gtfs <- read_rds("data/processed/gtfs_prepared.rds")
@@ -235,3 +236,112 @@ st_day |>
   inner_join(last_offcampus, by = "trip_id") |>
   filter(stop_sequence < last_off_seq) |>
   summarise(last_departure = max(departure_time))
+
+# ---- Step 7: grocery access ----
+# Grocery = supermarket (OpenStreetMap shop=supermarket). Excludes
+# convenience stores: you can't do a full week's shopping there.
+
+# Download supermarkets in a box around Broome County
+bbox <- st_bbox(st_transform(bg, 4326))
+
+osm <- opq(bbox) |>
+  add_osm_feature(key = "shop", value = "supermarket") |>
+  osmdata_sf()
+
+# Stores are mapped as single points or as building outlines.
+# Use one point per store either way.
+store_points <- osm$osm_points |>
+  filter(!is.na(shop)) |>
+  select(name)
+
+store_buildings <- osm$osm_polygons |>
+  st_centroid() |>
+  select(name)
+
+groceries <- bind_rows(store_points, store_buildings)
+
+nrow(groceries)
+groceries |> st_drop_geometry() |> count(name, sort = TRUE) |> as.data.frame()
+
+# Store list checked against store directories and local news (Oct 2026):
+# no major chain missing (no Market 32 or Tops in Broome County).
+# Weis 6, Price Chopper 5, ALDI 3, Walmart 2, Wegmans 1 are consistent.
+# Kept small independent markets: they sell real groceries.
+# Limitation: OpenStreetMap is volunteer-built; spot-checked, not complete.
+# Validation for later: BU says the North Side of Binghamton has no major
+# grocery within walking distance. Results should agree.
+
+# ---- Step 7b: grocery trip times (Saturday, arrive by noon) ----
+# Supermarket locations as a plain table
+coords_g <- st_coordinates(groceries)
+groc_xy <- tibble(groc_name = groceries$name,
+                  groc_lon = coords_g[, "X"],
+                  groc_lat = coords_g[, "Y"])
+
+# "Grocery stops": bus stops within 400 m (~5 min walk) of a supermarket
+grocery_stops <- gtfs$stops |>
+  select(stop_name, stop_lat, stop_lon) |>
+  cross_join(groc_xy) |>
+  mutate(d = dist_m(stop_lat, stop_lon, groc_lat, groc_lon)) |>
+  filter(d <= 400) |>
+  pull(stop_name) |>
+  unique()
+
+length(grocery_stops)
+
+# Bus trips from every stop to the nearest grocery stop
+tt_grocery <- transit_times(gtfs, grocery_stops, "2026-10-24",
+                            12 * 3600, direction = "to")
+
+# Option 1: walk to a bus stop + ride to a grocery stop
+by_bus <- neighborhood_times(bg_pts, tt_grocery) |>
+  select(GEOID, bus_min = total_min)
+
+# Option 2: walk straight to a supermarket (up to 800 m)
+by_walk <- bg_pts |>
+  cross_join(groc_xy) |>
+  mutate(walk_m = dist_m(bg_lat, bg_lon, groc_lat, groc_lon)) |>
+  filter(walk_m <= 800) |>
+  group_by(GEOID) |>
+  summarise(walk_only_min = min(walk_m) / 1.2 / 60)
+
+# Each neighborhood's faster option
+grocery_access <- bg |>
+  st_drop_geometry() |>
+  select(GEOID, NAME, popE, no_carE, pct_no_car) |>
+  left_join(by_bus, by = "GEOID") |>
+  left_join(by_walk, by = "GEOID") |>
+  mutate(grocery_min = pmin(bus_min, walk_only_min, na.rm = TRUE))
+
+# Share of car-free households within 30 min of a supermarket
+grocery_access |>
+  summarise(
+    pct_car_free_30min = sum(no_carE[which(grocery_min <= 30)]) / sum(no_carE),
+    pct_car_free_no_access = sum(no_carE[is.na(grocery_min)]) / sum(no_carE),
+    median_min = median(grocery_min, na.rm = TRUE))
+
+# Neighborhoods with the most car-free households beyond 30 min
+grocery_access |>
+  filter(is.na(grocery_min) | grocery_min > 30) |>
+  arrange(desc(no_carE)) |>
+  select(NAME, no_carE, pct_no_car, grocery_min) |>
+  head(10) |>
+  as.data.frame()
+
+# Check: neighborhoods with no grocery access on Saturday.
+# Can they reach CAMPUS by bus on Saturday? If many can, something's off.
+sat_campus <- neighborhood_times(bg_pts, tt_saturday) |>
+  select(GEOID, campus_min = total_min)
+
+grocery_access |>
+  filter(is.na(grocery_min)) |>
+  left_join(sat_campus, by = "GEOID") |>
+  count(can_reach_campus_saturday = !is.na(campus_min))
+
+# Check passed: all 78 neighborhoods with no Saturday grocery access
+# also can't reach campus by bus on Saturday. No usable Saturday bus
+# nearby, so the result is consistent, not a grocery-specific bug.
+# Grocery results (Saturday, arrive by noon):
+#   ~82% of car-free households reach a supermarket within 30 min
+#   (bus or walk); ~16% have no access; median ~7 min.
+#   Bus times end at the grocery stop (excludes a final walk of up to 5 min).
