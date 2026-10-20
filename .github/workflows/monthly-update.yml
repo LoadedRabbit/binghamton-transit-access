@@ -1,0 +1,54 @@
+name: Monthly update
+
+on:
+  schedule:
+    - cron: "17 10 3 * *"   # the 3rd of every month, 10:17am UTC
+  workflow_dispatch:        # also adds a button to run it by hand
+
+permissions:
+  contents: write           # lets it save results back to the project
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the project
+        uses: actions/checkout@v4
+
+      - name: Install system libraries for maps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgdal-dev libgeos-dev libproj-dev libudunits2-dev
+
+      - name: Install R (same version as renv.lock)
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: renv
+          use-public-rspm: true
+
+      - name: Install the exact R packages from renv.lock
+        uses: r-lib/actions/setup-renv@v2
+
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Run the pipeline
+        run: |
+          Rscript R/01_download.R
+          Rscript R/02_prepare_feed.R
+          Rscript R/03_travel_times.R
+          Rscript R/05_neighborhoods.R
+
+      - name: Record when this ran
+        run: date -u +"%Y-%m-%d %H:%M UTC" > data/processed/last_run.txt
+
+      - name: Build the website
+        run: quarto render
+
+      - name: Save and publish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Monthly data update"
+          git push
