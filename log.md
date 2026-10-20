@@ -72,3 +72,9 @@ includes today
   about once a year, not monthly.
 - Step 2: renv locks package versions (renv.lock). Confirmed the
   pipeline runs and gives the same results inside renv.
+  
+- Step 3: .github/workflows/monthly-update.yml runs 01, 02, 03, 05,
+  rebuilds the site, and publishes on the 3rd of each month (10:17 UTC).
+  Writes data/processed/last_run.txt every run, so there's always a
+  commit (GitHub disables scheduled workflows after 60 days of no
+  activity). Can also run by hand: GitHub, Actions tab, Run workflow.
