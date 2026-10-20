@@ -48,6 +48,7 @@ includes today
   campus 8:31pm; after that only OCCT, until 11:45pm (West Side) or
   9:35pm (Southside, Main St).
   
+  
 - Website v1: night headline (BC Transit + OCCT context), map with 4
   views (groceries, weekday 8am, Saturday, weeknight 10pm), shared color
   scale, dashed outlines for no-access areas. OCCT times typed by hand:
@@ -61,3 +62,13 @@ includes today
   git_push.
 - NEXT: 2 friend check-ins with the live link (Phase 4 gate), then
   Phase 5 automation.
+  
+## Phase 5: automation
+- Step 1: pick_date() in R/functions.R picks the next semester Tuesday
+  ("BU" service) and next Saturday the feed covers. Errors loudly if
+  the feed has no upcoming dates. Replaced hard-coded dates in 03 and
+  05. Website shows which dates it's based on. Verified: same results.
+- Decision: 04_download_context.R (Census, supermarkets) runs by hand
+  about once a year, not monthly.
+- Step 2: renv locks package versions (renv.lock). Confirmed the
+  pipeline runs and gives the same results inside renv.
