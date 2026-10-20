@@ -78,3 +78,12 @@ includes today
   Writes data/processed/last_run.txt every run, so there's always a
   commit (GitHub disables scheduled workflows after 60 days of no
   activity). Can also run by hand: GitHub, Actions tab, Run workflow.
+  
+- Step 4: first run by hand succeeded. The bot ran the pipeline,
+  rebuilt the site, and published it. Phase 5 done.
+- Habit: run gert::git_pull() at the start of every session.
+- Recurring by-hand tasks:
+  - Each semester: recheck OCCT times typed into index.qmd
+    (11:45pm, 9:35pm) against OCCT's new schedule.
+  - Once a year: rerun R/04_download_context.R (new Census data,
+    supermarket list), and bump acs_year when a new ACS release is out.
