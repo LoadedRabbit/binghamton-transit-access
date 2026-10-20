@@ -58,7 +58,7 @@ includes today
   (branch is "master", not "main": matters for Phase 5).
 - Website live: https://loadedrabbit.github.io/binghamton-transit-access/
   (published from /docs via GitHub Pages).
-- To update the site: quarto::quarto_render(), then git_add, git_commit,
+- To update the site: quarto::quarto_render(as_job = FALSE), then git_add, git_commit,
   git_push.
 - NEXT: 2 friend check-ins with the live link (Phase 4 gate), then
   Phase 5 automation.
