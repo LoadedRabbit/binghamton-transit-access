@@ -20,6 +20,27 @@ last_bus <- read_rds("data/processed/last_bus_from_campus.rds")
 dates <- read_rds("data/processed/analysis_dates.rds")
 pretty_date <- function(d) format(as.Date(d), "%A, %B %d, %Y")
 
+# When the monthly automation last checked for new data. The bot writes
+# this in UTC; convert to New York time so the date is right for readers.
+# If the file doesn't exist yet (before the first automated run), say so.
+last_run_file <- "data/processed/last_run.txt"
+
+if (file.exists(last_run_file)) {
+  last_run_utc <- as.POSIXct(readLines(last_run_file, n = 1),
+                             format = "%Y-%m-%d %H:%M UTC", tz = "UTC")
+  last_checked <- format(last_run_utc, "%B %d, %Y", tz = "America/New_York")
+} else {
+  last_checked <- "not yet"
+}
+
+# The full "which schedule / last checked" sentence, built here so the
+# page text only needs one simple inline call
+schedule_note <- paste0("Based on BC Transit's schedule for ",
+                        pretty_date(dates$weekday), " and ",
+                        pretty_date(dates$saturday),
+                        ". Data last checked for updates: ",
+                        last_checked, ".")
+
 # Turn seconds after midnight into a clock time, like "8:31 pm"
 clock <- function(seconds) {
   s <- as.numeric(seconds)
@@ -36,13 +57,15 @@ grocery_30 <- summary |>
   pull(pct_car_free_30min)
 ```
 
+\
+
 ## At night
 
 BC Transit's last bus out of campus on weekdays leaves at **`r clock(last_bus)`**. After that, only OCCT runs: to the **West Side and Downtown until 11:45 pm**, but to the **Southside and Johnson City's Main Street only until 9:35 pm**. Sunday through Thursday, nothing runs after midnight ([OCCT Fall 2026 schedule](https://occtransport.org/routeschedule.html)).
 
 ## The map
 
-*Based on BC Transit's schedule for `r pretty_date(dates$weekday)` and `r pretty_date(dates$saturday)`.*
+*`r schedule_note`*
 
 Pick a view in the box on the map. Each neighborhood is colored by the fastest trip by bus, including the walk to the stop. On Saturdays, about **`r round(100 * grocery_30)`%** of Broome County's car-free households can reach a supermarket within 30 minutes, by bus or on foot.
 

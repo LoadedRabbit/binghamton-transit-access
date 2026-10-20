@@ -87,3 +87,13 @@ includes today
     (11:45pm, 9:35pm) against OCCT's new schedule.
   - Once a year: rerun R/04_download_context.R (new Census data,
     supermarket list), and bump acs_year when a new ACS release is out.
+    
+- TODO before launch: phone test (headline readable, menu works, map
+  not covered by view box/legend, tapping shows labels, can scroll
+  past the map).
+  
+- Added "Data last checked for updates" to the site, from
+  data/processed/last_run.txt (UTC, converted to New York time).
+  Shows "not yet" if the file doesn't exist. Built the sentence in the
+  code chunk (schedule_note) instead of inline: copying inline code
+  from chat added stray backslashes twice.
