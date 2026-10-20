@@ -17,6 +17,8 @@ library(leaflet)
 nb <- read_rds("data/processed/neighborhoods.rds") |> st_transform(4326)
 summary <- read_rds("data/processed/scenario_summary.rds")
 last_bus <- read_rds("data/processed/last_bus_from_campus.rds")
+dates <- read_rds("data/processed/analysis_dates.rds")
+pretty_date <- function(d) format(as.Date(d), "%A, %B %d, %Y")
 
 # Turn seconds after midnight into a clock time, like "8:31 pm"
 clock <- function(seconds) {
@@ -39,6 +41,8 @@ grocery_30 <- summary |>
 BC Transit's last bus out of campus on weekdays leaves at **`r clock(last_bus)`**. After that, only OCCT runs: to the **West Side and Downtown until 11:45 pm**, but to the **Southside and Johnson City's Main Street only until 9:35 pm**. Sunday through Thursday, nothing runs after midnight ([OCCT Fall 2026 schedule](https://occtransport.org/routeschedule.html)).
 
 ## The map
+
+*Based on BC Transit's schedule for `r pretty_date(dates$weekday)` and `r pretty_date(dates$saturday)`.*
 
 Pick a view in the box on the map. Each neighborhood is colored by the fastest trip by bus, including the walk to the stop. On Saturdays, about **`r round(100 * grocery_30)`%** of Broome County's car-free households can reach a supermarket within 30 minutes, by bus or on foot.
 

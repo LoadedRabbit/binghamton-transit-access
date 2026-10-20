@@ -9,7 +9,7 @@ source("R/functions.R")  # loads dist_m() and transit_times()
 gtfs <- read_rds("data/processed/gtfs_prepared.rds")
 
 # ---- Settings ----
-analysis_date <- "2026-10-20"  # TODO before Phase 5: pick automatically
+analysis_date <- pick_date(gtfs, day = 3, prefer = "BU")  # next semester Tuesday
 arrive_by     <- 8 * 3600      # arrive on campus by 8:00am
 
 # ---- Campus stops: name starts with "BU" AND on the main campus ----

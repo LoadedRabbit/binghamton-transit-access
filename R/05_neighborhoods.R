@@ -14,9 +14,11 @@ bg <- read_rds("data/raw/census_block_groups.rds")
 groceries <- read_rds("data/raw/supermarkets.rds")
 
 # ---- Settings ----
-weekday  <- "2026-10-20"  # TODO before Phase 5: pick automatically
-saturday <- "2026-10-24"  # TODO before Phase 5: pick automatically
+weekday  <- pick_date(gtfs, day = 3, prefer = "BU")  # next semester Tuesday
+saturday <- pick_date(gtfs, day = 7)                 # next Saturday
 
+# Saved so the website can say which dates the map is based on
+analysis_dates <- tibble(weekday = weekday, saturday = saturday)
 # ---- Neighborhoods ----
 # No-car households = owners + renters.
 # Margin of error for a sum: sqrt(M1^2 + M2^2) (Census Bureau formula)
@@ -128,3 +130,4 @@ last_bus <- st_day |>
 write_rds(bg_results, "data/processed/neighborhoods.rds")
 write_rds(scenario_summary, "data/processed/scenario_summary.rds")
 write_rds(last_bus, "data/processed/last_bus_from_campus.rds")
+write_rds(analysis_dates, "data/processed/analysis_dates.rds")

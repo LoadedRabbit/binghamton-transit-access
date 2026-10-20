@@ -70,3 +70,24 @@ neighborhood_times <- function(bg_pts, tt, max_walk = 800) {
     ungroup() |>
     select(GEOID, best_stop = stop_name, walk_min, travel_min, total_min)
 }
+
+# Pick the next date (from today) when the feed has service on a given
+# day of the week. day: 1 = Sunday, 2 = Monday, ..., 7 = Saturday.
+# prefer: optional pattern of service_ids to prefer, e.g. "BU" for days
+# when Binghamton University trips run (during the semester).
+pick_date <- function(gtfs, day, prefer = NULL) {
+  candidates <- gtfs$.$dates_services |>
+    filter(date >= Sys.Date(), lubridate::wday(date) == day)
+  
+  if (!is.null(prefer)) {
+    preferred <- candidates |> filter(str_detect(service_id, prefer))
+    if (nrow(preferred) > 0) candidates <- preferred
+  }
+  
+  if (nrow(candidates) == 0) {
+    stop("The feed has no upcoming service on day ", day,
+         ". Is the feed out of date?")
+  }
+  
+  as.character(min(candidates$date))
+}
