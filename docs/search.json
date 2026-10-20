@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "methods.html",
+    "href": "methods.html",
+    "title": "How it works",
+    "section": "",
+    "text": "Each neighborhood (Census block group) is colored by the fastest scheduled trip to Binghamton University’s main campus: walking to a nearby BC Transit stop, plus the bus ride."
+  },
+  {
+    "objectID": "methods.html#what-the-map-shows",
+    "href": "methods.html#what-the-map-shows",
+    "title": "How it works",
+    "section": "",
+    "text": "Each neighborhood (Census block group) is colored by the fastest scheduled trip to Binghamton University’s main campus: walking to a nearby BC Transit stop, plus the bus ride."
+  },
+  {
+    "objectID": "methods.html#data",
+    "href": "methods.html#data",
+    "title": "How it works",
+    "section": "Data",
+    "text": "Data\n\nBus schedules: BC Transit’s public GTFS feed (Broome County).\nNeighborhoods: U.S. Census Bureau, American Community Survey 5-year estimates (2020–2024).\nSupermarkets: OpenStreetMap (shop=supermarket), spot-checked against store directories."
+  },
+  {
+    "objectID": "methods.html#assumptions-and-limits",
+    "href": "methods.html#assumptions-and-limits",
+    "title": "How it works",
+    "section": "Assumptions and limits",
+    "text": "Assumptions and limits\n\nRiders walk up to 800 m (about 11 minutes) to a stop, at 1.2 m/s.\nEach neighborhood is measured from one point inside it, so large rural areas are approximate.\nTimes are based on schedules, not real-time bus locations.\nSome stop times are estimated between scheduled timepoints.\nOCCT (the student bus system) is not included, because its schedules aren’t in BC Transit’s data. Student neighborhoods are better connected than this map shows, especially late at night.\nCensus numbers are survey estimates with margins of error."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Getting Around Binghamton Without a Car",
+    "section": "",
+    "text": "Note\n\n\n\nDraft. Work in progress."
+  },
+  {
+    "objectID": "index.html#at-night",
+    "href": "index.html#at-night",
+    "title": "Getting Around Binghamton Without a Car",
+    "section": "At night",
+    "text": "At night\nBC Transit’s last bus out of campus on weekdays leaves at 8:31 pm. After that, only OCCT runs: to the West Side and Downtown until 11:45 pm, but to the Southside and Johnson City’s Main Street only until 9:35 pm. Sunday through Thursday, nothing runs after midnight (OCCT Fall 2026 schedule)."
+  },
+  {
+    "objectID": "index.html#the-map",
+    "href": "index.html#the-map",
+    "title": "Getting Around Binghamton Without a Car",
+    "section": "The map",
+    "text": "The map\nPick a view in the box on the map. Each neighborhood is colored by the fastest trip by bus, including the walk to the stop. On Saturdays, about 82% of Broome County’s car-free households can reach a supermarket within 30 minutes, by bus or on foot.\n\n\n\n\n\n\nWarning\n\n\n\nOCCT isn’t on this map. It shows BC Transit only, since OCCT’s schedules aren’t in BC Transit’s data. Students living near OCCT routes have more options than shown, especially on the West Side."
+  }
+]

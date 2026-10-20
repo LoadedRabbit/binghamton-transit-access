@@ -1,0 +1,110 @@
+---
+title: "Getting Around Binghamton Without a Car"
+---
+
+::: callout-note
+**Draft.** Work in progress.
+:::
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(sf)
+library(leaflet)
+
+nb <- read_rds("data/processed/neighborhoods.rds") |> st_transform(4326)
+summary <- read_rds("data/processed/scenario_summary.rds")
+last_bus <- read_rds("data/processed/last_bus_from_campus.rds")
+
+# Turn seconds after midnight into a clock time, like "8:31 pm"
+clock <- function(seconds) {
+  s <- as.numeric(seconds)
+  h <- s %/% 3600
+  m <- (s %% 3600) %/% 60
+  sprintf("%d:%02d %s", ifelse(h %% 12 == 0, 12, h %% 12), m,
+          ifelse(h >= 12, "pm", "am"))
+}
+
+# Look up summary numbers by scenario name, not row position,
+# so they stay right if the table order ever changes
+grocery_30 <- summary |>
+  filter(str_detect(scenario, "Supermarket")) |>
+  pull(pct_car_free_30min)
+```
+
+## At night
+
+BC Transit's last bus out of campus on weekdays leaves at **`r clock(last_bus)`**. After that, only OCCT runs: to the **West Side and Downtown until 11:45 pm**, but to the **Southside and Johnson City's Main Street only until 9:35 pm**. Sunday through Thursday, nothing runs after midnight ([OCCT Fall 2026 schedule](https://occtransport.org/routeschedule.html)).
+
+## The map
+
+Pick a view in the box on the map. Each neighborhood is colored by the fastest trip by bus, including the walk to the stop. On Saturdays, about **`r round(100 * grocery_30)`%** of Broome County's car-free households can reach a supermarket within 30 minutes, by bus or on foot.
+
+::: callout-warning
+**OCCT isn't on this map.** It shows BC Transit only, since OCCT's schedules aren't in BC Transit's data. Students living near OCCT routes have more options than shown, especially on the West Side.
+:::
+
+```{r}
+#| echo: false
+# One shared color scale for every view, so the same color means the
+# same number of minutes everywhere
+all_min <- c(nb$grocery_min, nb$campus_8am_min,
+             nb$campus_sat_min, nb$campus_10pm_min)
+pal <- colorNumeric("viridis", domain = c(0, max(all_min, na.rm = TRUE)),
+                    reverse = TRUE, na.color = "transparent")
+
+# Add one view to the map. Neighborhoods with access are filled by
+# minutes; no-access neighborhoods get a dark dashed outline, no fill.
+add_view <- function(map, minutes, group, what, none_text) {
+  has <- !is.na(minutes)
+
+  if (any(has)) {
+    map <- map |>
+      addPolygons(data = nb[has, ],
+                  fillColor = pal(minutes[has]),
+                  fillOpacity = 0.7,
+                  color = "gray30",
+                  weight = 0.5,
+                  group = group,
+                  label = paste0(round(minutes[has]), " min ", what))
+  }
+
+  if (any(!has)) {
+    map <- map |>
+      addPolygons(data = nb[!has, ],
+                  fillColor = "white",
+                  fillOpacity = 0.01,
+                  color = "#222222",
+                  weight = 1.5,
+                  dashArray = "4 4",
+                  group = group,
+                  label = none_text)
+  }
+
+  map
+}
+
+views <- c("Groceries (Saturday)",
+           "To campus: weekday, by 8am",
+           "To campus: Saturday, by noon",
+           "Leaving campus: weeknight, 10pm")
+
+leaflet() |>
+  addTiles() |>
+  add_view(nb$grocery_min, views[1], "to a supermarket",
+           "No bus or walk to a supermarket") |>
+  add_view(nb$campus_8am_min, views[2], "to campus",
+           "No bus to campus by 8am") |>
+  add_view(nb$campus_sat_min, views[3], "to campus",
+           "No bus to campus by noon") |>
+  add_view(nb$campus_10pm_min, views[4], "home from campus",
+           "No BC Transit bus home after 10pm") |>
+  addLayersControl(baseGroups = views,
+                   options = layersControlOptions(collapsed = FALSE)) |>
+  addLegend(pal = pal,
+            values = all_min,
+            title = "Minutes, incl.<br>walk to stop",
+            na.label = "No access (dashed outline)")
+```

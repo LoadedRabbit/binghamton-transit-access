@@ -1,0 +1,19 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - methods.qmd
+
+website:
+  title: "Binghamton Transit Access"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Map
+      - href: methods.qmd
+        text: How it works
+
+format:
+  html:
+    theme: cosmo

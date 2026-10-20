@@ -1,0 +1,30 @@
+---
+title: "How it works"
+---
+
+## What the map shows
+
+Each neighborhood (Census block group) is colored by the fastest
+scheduled trip to Binghamton University's main campus: walking to a
+nearby BC Transit stop, plus the bus ride.
+
+## Data
+
+- **Bus schedules:** BC Transit's public GTFS feed (Broome County).
+- **Neighborhoods:** U.S. Census Bureau, American Community Survey
+  5-year estimates (2020–2024).
+- **Supermarkets:** OpenStreetMap (`shop=supermarket`), spot-checked
+  against store directories.
+
+## Assumptions and limits
+
+- Riders walk up to 800 m (about 11 minutes) to a stop, at 1.2 m/s.
+- Each neighborhood is measured from one point inside it, so large
+  rural areas are approximate.
+- Times are based on schedules, not real-time bus locations.
+- Some stop times are estimated between scheduled timepoints.
+- **OCCT (the student bus system) is not included**, because its
+  schedules aren't in BC Transit's data. Student neighborhoods are
+  better connected than this map shows, especially late at night.
+- Census numbers are survey estimates with margins of error.
+---
