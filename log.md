@@ -97,3 +97,11 @@ includes today
   Shows "not yet" if the file doesn't exist. Built the sentence in the
   code chunk (schedule_note) instead of inline: copying inline code
   from chat added stray backslashes twice.
+  
+- Chenango St check (friend's address): model says ~13-15 min from
+  downtown; Google said 40-50. Checked against BC Transit's published
+  Route 57 timetable: BC Junction 7:10 -> campus 7:25. Model is right.
+  Gap with Google = door-to-door walking + slower route choice.
+- Limitation found: map shows the best-case (fastest) trip in the
+  window, not how often good options run. Add to methods page.
+  Future: measure the typical trip across the hour.
