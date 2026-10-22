@@ -105,3 +105,13 @@ includes today
 - Limitation found: map shows the best-case (fastest) trip in the
   window, not how often good options run. Add to methods page.
   Future: measure the typical trip across the hour.
+  
+- Emailed OCCT (director@occtransport.org) asking for GTFS schedule
+  data (Oct 21). If no reply in ~1 week, build from the Fall 2026 PDF.
+  Meanwhile: building the OCCT stop list (needed either way).  
+  
+- Fixed 2 estimated OCCT stops with Google Maps coordinates: Main &
+  Murray, Conklin & S Washington (my estimate had landed on the bridge).
+  
+- Checked OCCT stops on a map: UClub, Meadows & Hayes, Oakdale Commons
+  all in the right place. All 22 timepoint stops now located.

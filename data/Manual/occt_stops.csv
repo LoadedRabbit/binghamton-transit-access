@@ -1,0 +1,22 @@
+stop_id,stop_name,stop_lat,stop_lon,source,notes
+occt_union,University Union (campus),42.08705,-75.96706,bc_transit,BU Union
+occt_mohawk,Mohawk (campus),42.08692,-75.96596,bc_transit,BU Mohawk Bldg
+occt_floral_main,Floral Ave & Main St (Johnson City),42.11104,-75.94512,bc_transit,Floral/Main
+occt_main_murray,Main St & Murray St (Binghamton),42.09946,-75.92107,google_maps,Corner from Google Maps
+occt_riverside_columbus,Riverside Dr & Columbus Pl,42.09930,-75.95462,bc_transit,Riverside/Columbus
+occt_leroy_murray,Leroy St & Murray St,42.09557,-75.92274,bc_transit,Leroy/Murray
+occt_pharmacy,Pharmacy School (Johnson City),42.11303,-75.95655,bc_transit,BU Pharmacy School
+occt_conklin_swashington,Conklin Ave & S Washington St,42.09137,-75.91435,google_maps,Corner from Google Maps
+occt_tompkins_conklin,Tompkins St & Conklin Ave,42.09521,-75.89324,bc_transit,Conklin/Tompkins
+occt_bc_junction,BC Junction,42.10135,-75.91080,bc_transit,BC Junction
+occt_state_hawley,State St & Hawley St (Downtown),42.09648,-75.91194,address_lookup,City Hall (38 Hawley St) is at this corner - Late Nite and Downtown Express
+occt_washington_lehigh,Washington Dr & Lehigh Ave,42.08251,-75.95952,bc_transit,Washington / Lehigh
+occt_itc,ITC,42.09427,-75.95887,address_lookup,85 Murray Hill Rd
+occt_parkway_plaza,Parkway Plaza (Target),42.09419,-76.00091,bc_transit,Parkway Plaza/Target
+occt_town_square,Town Square Mall (Walmart),42.09614,-76.01263,bc_transit,Town Square Mall/Walmart
+occt_shoppes,The Shoppes at Vestal (Old Navy),42.09494,-76.01592,address_lookup,2317 Vestal Pkwy E (shopping center)
+occt_aldi,Aldi (Harry L Dr),42.12309,-75.96996,address_lookup,560 Harry L Dr
+occt_wegmans,Wegmans,42.12325,-75.97257,bc_transit,Wegmans
+occt_uclub,UClub (University Plaza),42.09185,-75.95185,bc_transit,University Plaza - checked on map
+occt_meadows_hayes,Meadows & Hayes,42.08952,-75.95575,bc_transit,Plaza / Meadows Apts (500 Plaza Dr) - checked on map
+occt_oakdale,Oakdale Commons,42.12773,-75.97514,bc_transit,Oakdale Commons/Oakdale Pizza - checked on map
